@@ -1,38 +1,68 @@
-import {  StyleSheet, TextInput, View } from "react-native";
+import { Alert, StyleSheet, TextInput, View } from "react-native";
 import PrimaryButton from "../component/PrimaryButton";
+import { useEffect, useState } from "react";
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ pickedNumberHandler }) => {
+  const [enteredNumber, setEnteredNumber] = useState("");
+  const NumberInputHandler = (enteredText) => {
+    setEnteredNumber(enteredText);
+  };
+
+  const resetInputHandler = () => {
+    setEnteredNumber("");
+  };
+  const confirmInputHandler = () => {
+    const choseNumber = parseInt(enteredNumber);
+    if (isNaN(choseNumber) || choseNumber <= 0 || choseNumber > 99) {
+      Alert.alert(
+        "invalid number !",
+        "Number has to be number between 1 and 99.",
+        [{ text: "okay", onPress: resetInputHandler , style:'cancel'}]
+      );
+      //  بخش اول تایتل الرت را مشخص میکند بخش دوم پیام الرت و بخش سوم که یک ارایه است داخلش میتواند به صورت ابجکت باز شود و تکست باتن الرت و استایلش و حتی فانکشنی که بعد از پرس کردنش اجرا شود را میتوان نوشت 
+      // برای استفاده از دیفالت الرت های نیتیو باید آنرا ایمپورت کنیم
+      return;
+    }
+    pickedNumberHandler(choseNumber);
+  };
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.numberInput}
         maxLength={2}
-        // مکس لنس تعداد نهایی کاراکتر هایی که میتوانیم در اینپوت بنویسیم را اعمال میکند
         keyboardType="number-pad"
-        // کیبورد تایپ به ما این امکان را میدهد که کدام یک از قسمت کیبورد گوشی فعال شود مثلا در این مورد فقط عدد ها فعال میشود در ضمن برای اندروید و ای او اس یکسان است البته گزینه های زیادی برای هر یک در سایت نیتیو وجود دارد
         autoCapitalize="none"
-        // مثلا این گزینه که در اینجا اصلا کاربرد ندارد برای این است که حساس به کلمات بزرگ باشه یا نه
         autoCorrect={false}
+        onChangeText={NumberInputHandler}
+        value={enteredNumber}
       />
-      <PrimaryButton>Reset</PrimaryButton>
-      <PrimaryButton>Confirm</PrimaryButton>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPressFunc={resetInputHandler}>Reset</PrimaryButton>
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPressFunc={confirmInputHandler}>
+            Confirm
+          </PrimaryButton>
+        </View>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   inputContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     padding: 16,
     marginTop: 100,
-    backgroundColor: "#4e0329",
+    backgroundColor: "#3b021f",
     marginHorizontal: 24,
     borderRadius: 8,
     elevation: 8,
-    // برای شادو دادن در اندروید از الویشن استفاده میشود
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.25,
-    // برای شادو دادن در ای او اس از چهار المان بالایی استفاده میشود
   },
   numberInput: {
     height: 50,
@@ -44,6 +74,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });
 export default StartGameScreen;
