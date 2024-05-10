@@ -1,6 +1,7 @@
 import { Alert, StyleSheet, TextInput, View } from "react-native";
-import PrimaryButton from "../component/PrimaryButton";
-import { useEffect, useState } from "react";
+import PrimaryButton from "../component/ui/PrimaryButton";
+import { useState } from "react";
+import Colors from "../constans/color";
 
 const StartGameScreen = ({ pickedNumberHandler }) => {
   const [enteredNumber, setEnteredNumber] = useState("");
@@ -11,16 +12,17 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
   const resetInputHandler = () => {
     setEnteredNumber("");
   };
+
   const confirmInputHandler = () => {
     const choseNumber = parseInt(enteredNumber);
+    //  پارس اینت هر چیزی را به اینتیجر تبدیل میکند در واقع برای اطمینان این کار را اینجا انجام دادیم 
     if (isNaN(choseNumber) || choseNumber <= 0 || choseNumber > 99) {
+      // ایز نان یعنی چیزی وجود نداشته باشد
       Alert.alert(
-        "invalid number !",
+        " invalid number !",
         "Number has to be number between 1 and 99.",
         [{ text: "okay", onPress: resetInputHandler , style:'cancel'}]
       );
-      //  بخش اول تایتل الرت را مشخص میکند بخش دوم پیام الرت و بخش سوم که یک ارایه است داخلش میتواند به صورت ابجکت باز شود و تکست باتن الرت و استایلش و حتی فانکشنی که بعد از پرس کردنش اجرا شود را میتوان نوشت 
-      // برای استفاده از دیفالت الرت های نیتیو باید آنرا ایمپورت کنیم
       return;
     }
     pickedNumberHandler(choseNumber);
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     marginTop: 100,
-    backgroundColor: "#3b021f",
+    backgroundColor: Colors.primary800,
     marginHorizontal: 24,
     borderRadius: 8,
     elevation: 8,
@@ -68,9 +70,9 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     fontSize: 32,
-    borderBottomColor: "#ddb52f",
+    borderBottomColor: Colors.accent500,
     borderBottomWidth: 2,
-    color: "#ddb52f",
+    color: Colors.accent500,
     marginVertical: 8,
     fontWeight: "bold",
     textAlign: "center",
