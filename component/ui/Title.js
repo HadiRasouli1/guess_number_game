@@ -11,6 +11,8 @@ export default Title;
 
 const styles=StyleSheet.create({
     title:{
+    //  fontFamily:'OpenSans-Bold',
+    // اسمی که در یوز فونت استفاده کردیم را اینجا مینویسیم تا از فونت استفاده کنیم
      fontSize:24,
      fontWeight:"bold",
      color:"white",

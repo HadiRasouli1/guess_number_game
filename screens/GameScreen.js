@@ -1,11 +1,12 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import Title from "../component/ui/Title";
 import { useEffect, useState } from "react";
 import NumberContainer from "../component/game/NumberContainer";
 import PrimaryButton from "../component/ui/PrimaryButton";
 import Card from "../component/ui/Card";
 import InstructionText from "../component/ui/instructionText";
-import {Ionicons} from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import GuessLogItem from "../component/game/GuessLogItem";
 
 const generateRandomBetween = (min, max, exclude) => {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -21,12 +22,17 @@ let maxBoundary = 100;
 const GameScreen = ({ userNumber, gameOverHandler }) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currntGuess, setCurrentGuess] = useState(initialGuess);
+  const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
   useEffect(() => {
     if (currntGuess === userNumber) {
-      gameOverHandler();
+      gameOverHandler(guessRounds.length);
     }
   }, [currntGuess, userNumber, gameOverHandler]);
+  useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 100;
+  }, []);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -49,34 +55,48 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
       currntGuess
     );
     setCurrentGuess(newRndNumber);
+    setGuessRounds((prevGuessRounds) => [newRndNumber, ...prevGuessRounds]);
   };
+
+  const guessRoundsListLength = guessRounds.length;
+
   return (
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currntGuess}</NumberContainer>
       <Card>
         <InstructionText style={styles.InstructionText}>
-          {/* در واقع این استایل یک پراپسی است که به این کامپوننت ارسال میکنیم و در انجا در استایلش استفاده میکنیم */}
           Higher or lower?
         </InstructionText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPressFunc={nextGuessHandler.bind(this, "lower")}>
-              {/* <Ionicons name="remove" size={24} color="white" /> */}
-              {/* اگر یونآیکون را ایمپورت کنیم میتوانیم از آیکون های اکسپو با نام های مختلفی که در سایت مرجع است در اینجا استفاده کنیم */}
-              -
-              
+              {/* <Ionicons name="remove" size={24} color="white" /> */}-
             </PrimaryButton>
           </View>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPressFunc={nextGuessHandler.bind(this, "greater")}>
-              {/* <Ionicons name="add" size={24} color="white" /> */}
-              +
+              {/* <Ionicons name="add" size={24} color="white" /> */}+
             </PrimaryButton>
           </View>
         </View>
       </Card>
-      <View>{/* Log Rounds */}</View>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={(itemData) => {
+            return (
+              <GuessLogItem
+                roundNumber={guessRoundsListLength - itemData.index}
+                guess={itemData.item}
+              />
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item;
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -95,5 +115,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+  },
+  listContainer: {
+    flex: 1,
+    padding: 16,
   },
 });
