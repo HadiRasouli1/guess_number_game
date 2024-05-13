@@ -10,8 +10,6 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
-// اسپلش اسکرین باعث میشود صفحه لود که همراه با لوگوی برنامه است نشان داده شود ما برای استفاده ازین باید آنرا در پروژه خود نصب کنیم و به صورت بالا آنرا در اینجا ایمپورت کنیم
-// در این خط کد همیشه اسپلش اسکرین نمایش داده میشود تا زمانی که ما آنرا غیر فعال کنیم
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
@@ -19,7 +17,6 @@ export default function App() {
   // const [fontLoaded] = useFonts({
   //   "OpenSans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
   // });
-  // ما برای استفاده از فونت های مختلف اکسپو فونت رو در پروژه نصب میکنیم و از هوک مخصوص یوز فونت را در پروژه ایمپورت میکنیم و در این بخش به صورت بالا فونتی که دانلودش کردیم با ادرس دهی شبیه به سورس عکس آنرا با استفاده از یوزفونت استفاده میکنیم
 
   const [testSplashScreen, setTestSplashScreen] = useState(false);
   setInterval(() => {
@@ -28,7 +25,6 @@ export default function App() {
   const LoadingDate = async () => {
     if (testSplashScreen) {
       await SplashScreen.hideAsync();
-      // اینجا گفتیم هرموقع تست ترو بود هاید اسینک بشه یعنی صفحه اسپلش اسکرین دیگر نشان داده نشود
     }
   };
   useEffect(() => {
@@ -93,3 +89,5 @@ const styles = StyleSheet.create({
     opacity: 0.35,
   },
 });
+
+// در اپ دات جیسون اگر اورینتیشن را در حالت دیفالت بزاریم گوشی میتواند در حالت چرخش نیز عمل کند ولی اگر در حالت پورتریت باشد در حالت عمودی قفل میشود یا در حالت لندایسکیپ نیز برعکس

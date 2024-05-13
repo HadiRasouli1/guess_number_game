@@ -1,4 +1,11 @@
-import { Alert, StyleSheet, TextInput, View } from "react-native";
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import PrimaryButton from "../component/ui/PrimaryButton";
 import { useState } from "react";
 import Colors from "../constans/color";
@@ -8,6 +15,11 @@ import InstructionText from "../component/ui/instructionText";
 
 const StartGameScreen = ({ pickedNumberHandler }) => {
   const [enteredNumber, setEnteredNumber] = useState("");
+
+  const { width, height } = useWindowDimensions();
+  const marginTopDistance = height < 450 ? 30 : 200;
+  // ما از مقادیر هیت  ویدس یوزویندودایمیشنی که ایمپورت کردیم میتوانیم به صورت داینامیک در کد هایمان استفاده کنیم در واقع این ارقام به صورت داینامیک است یعنی مثلا هیت به دست آمده فقط در ابتدا محاسبه نمیشود بلکه در چرخش صفحه نیز این عدد تغییر میکند
+
   const NumberInputHandler = (enteredText) => {
     setEnteredNumber(enteredText);
   };
@@ -28,8 +40,10 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
     }
     pickedNumberHandler(choseNumber);
   };
+
   return (
-    <View style={styles.rootContainer}>
+    <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
+      {/*  ما به صورت آرایه ای از استایل ها توانستیم عددی که از یوزویندو دایمیشن بدست آوردیم در اینجا استفاده کنیم */}
       <Title>Guess my number</Title>
       <Card>
         <InstructionText>enter a number</InstructionText>
@@ -56,14 +70,15 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
     </View>
   );
 };
+// const deviceWidth = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    marginTop: 100,
+    // marginTop: deviceWidth < 380 ? 30 : 100,
     alignItems: "center",
   },
   numberInput: {
-    height: 50,
+    // height: 50,
     width: 50,
     fontSize: 32,
     borderBottomColor: Colors.accent500,
