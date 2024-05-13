@@ -1,6 +1,8 @@
 import {
   Alert,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
   StyleSheet,
   TextInput,
   View,
@@ -18,7 +20,6 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
 
   const { width, height } = useWindowDimensions();
   const marginTopDistance = height < 450 ? 30 : 200;
-  // ما از مقادیر هیت  ویدس یوزویندودایمیشنی که ایمپورت کردیم میتوانیم به صورت داینامیک در کد هایمان استفاده کنیم در واقع این ارقام به صورت داینامیک است یعنی مثلا هیت به دست آمده فقط در ابتدا محاسبه نمیشود بلکه در چرخش صفحه نیز این عدد تغییر میکند
 
   const NumberInputHandler = (enteredText) => {
     setEnteredNumber(enteredText);
@@ -42,36 +43,46 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
   };
 
   return (
-    <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
-      {/*  ما به صورت آرایه ای از استایل ها توانستیم عددی که از یوزویندو دایمیشن بدست آوردیم در اینجا استفاده کنیم */}
-      <Title>Guess my number</Title>
-      <Card>
-        <InstructionText>enter a number</InstructionText>
-        <TextInput
-          style={styles.numberInput}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={NumberInputHandler}
-          value={enteredNumber}
-        />
-        <View style={styles.buttonsContainer}>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPressFunc={resetInputHandler}>Reset</PrimaryButton>
-          </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPressFunc={confirmInputHandler}>
-              Confirm
-            </PrimaryButton>
-          </View>
+    <ScrollView style={styles.screen}>
+      {/* برای استفاده از کامپوننت پایینی به شکل بهینه در صورت نیاز باید داخل این کامپوننت قرار بدهیم تا حالت اسکرول نیز داشته باشد */}
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        {/* این کامپوننت به ما این امکان را میدهد اگر کیبورد باز شد و فضای کافی برای دیده شدن اینپوت نبود خود به خود کامپوننت ها به بالا هدایت شوند فقط باید بهیویر این را به یک حالتی تنظیم کنیم که یکی از بهترین حالت ها پوزیشن است در ضمن فلکسش را یک میکنیم تا کل صفحه را پوشش دهد */}
+        <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
+          <Title>Guess my number</Title>
+          <Card>
+            <InstructionText>enter a number</InstructionText>
+            <TextInput
+              style={styles.numberInput}
+              maxLength={2}
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={NumberInputHandler}
+              value={enteredNumber}
+            />
+            <View style={styles.buttonsContainer}>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton onPressFunc={resetInputHandler}>
+                  Reset
+                </PrimaryButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton onPressFunc={confirmInputHandler}>
+                  Confirm
+                </PrimaryButton>
+              </View>
+            </View>
+          </Card>
         </View>
-      </Card>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 // const deviceWidth = Dimensions.get('window').height;
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   rootContainer: {
     flex: 1,
     // marginTop: deviceWidth < 380 ? 30 : 100,

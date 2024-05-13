@@ -6,7 +6,6 @@ const Card = ({ children }) => {
 };
 export default Card;
 const deviceWidth = Dimensions.get("window").width;
-// این دایمنشنی که ایمپورت کردیم و با استفاده از گت ویندو توانستیم ویدس یا ... دستگاه مورد نظر را بدست اوریم و در مقادیر سی اس اس از ان استفاده کنیم حتی به صورت شرطی ولی اشکالی که این دایمیشن دارد این است که به صورت داینامیک نیست و فقط اولین بار به ما یک مقدار میدهد و با چرخش صفحه یا ... عدد همان باقی میماند
 const styles = StyleSheet.create({
   card: {
     justifyContent: "center",
