@@ -44,9 +44,7 @@ const StartGameScreen = ({ pickedNumberHandler }) => {
 
   return (
     <ScrollView style={styles.screen}>
-      {/* برای استفاده از کامپوننت پایینی به شکل بهینه در صورت نیاز باید داخل این کامپوننت قرار بدهیم تا حالت اسکرول نیز داشته باشد */}
       <KeyboardAvoidingView style={styles.screen} behavior="position">
-        {/* این کامپوننت به ما این امکان را میدهد اگر کیبورد باز شد و فضای کافی برای دیده شدن اینپوت نبود خود به خود کامپوننت ها به بالا هدایت شوند فقط باید بهیویر این را به یک حالتی تنظیم کنیم که یکی از بهترین حالت ها پوزیشن است در ضمن فلکسش را یک میکنیم تا کل صفحه را پوشش دهد */}
         <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
           <Title>Guess my number</Title>
           <Card>
